@@ -20,6 +20,10 @@
 **AI & Media:** OpenAI / Claude · ElevenLabs · Creatomate · HeyGen · Pexels · Blender
 **Data & Dev:** Supabase · PostgreSQL · SQL · TypeScript · RAG · Google Sheets
 
+## 🧩 Portfolio
+
+👉 **[See detailed case studies](./portfolio/)**: CRM Lead Management · SA ASTERION™ News-to-Video Engine · SA PRIME BULLETIN multi-desk AI newsroom
+
 ## 📺 Live in production
 
 - **SA Media News**: fully automated Bengali news bulletins and narrated videos, published daily
