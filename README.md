@@ -22,7 +22,7 @@
 
 ## 🧩 Portfolio
 
-👉 **[See detailed case studies](./portfolio/)**: CRM Lead Management · SA ASTERION™ News-to-Video Engine · SA PRIME BULLETIN multi-desk AI newsroom
+👉 **[See detailed case studies](./portfolio/)**: CRM Lead Management · SA ASTERION™ News-to-Video Engine · SA PRIME BULLETIN multi-desk AI newsroom · n8n Mini CRM
 
 ## 📺 Live in production
 

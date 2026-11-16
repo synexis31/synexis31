@@ -1,0 +1,77 @@
+{
+  "name": "SA SYNEXIS Mini CRM — Lead Capture (n8n)",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Work with SA SYNEXIS",
+        "formDescription": "Tell us what you want to automate. We reply within one working day.",
+        "formFields": {
+          "values": [
+            { "fieldLabel": "Full name", "fieldName": "name", "requiredField": true },
+            { "fieldLabel": "Email", "fieldType": "email", "fieldName": "email", "requiredField": true },
+            { "fieldLabel": "Phone", "fieldName": "phone" },
+            { "fieldLabel": "Company", "fieldName": "company" },
+            {
+              "fieldLabel": "Service", "fieldType": "dropdown", "fieldName": "service", "requiredField": true,
+              "fieldOptions": { "values": [
+                { "option": "Make.com automation" }, { "option": "n8n automation" },
+                { "option": "AI agent" }, { "option": "CRM / lead capture" }, { "option": "Other" }
+              ] }
+            },
+            { "fieldLabel": "What do you want to automate?", "fieldType": "textarea", "fieldName": "message", "requiredField": true }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "buttonLabel": "Send",
+          "path": "your-lead-form",
+          "respondWithOptions": { "values": { "formSubmittedText": "Thank you! Your request has been received. We will contact you soon." } },
+          "ignoreBots": true
+        }
+      },
+      "name": "New Lead Form",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "assignments": { "assignments": [
+          { "id": "f-name", "name": "name", "value": "={{ ($json.name ?? \"\").trim() }}", "type": "string" },
+          { "id": "f-email", "name": "email", "value": "={{ ($json.email ?? \"\").trim().toLowerCase() }}", "type": "string" },
+          { "id": "f-phone", "name": "phone", "value": "={{ ($json.phone ?? \"\").trim() }}", "type": "string" },
+          { "id": "f-company", "name": "company", "value": "={{ ($json.company ?? \"\").trim() }}", "type": "string" },
+          { "id": "f-service", "name": "service", "value": "={{ $json.service ?? \"\" }}", "type": "string" },
+          { "id": "f-message", "name": "message", "value": "={{ ($json.message ?? \"\").trim() }}", "type": "string" },
+          { "id": "f-status", "name": "status", "value": "New", "type": "string" },
+          { "id": "f-source", "name": "source", "value": "={{ $json.formMode === \"test\" ? \"Form (test)\" : \"Website form\" }}", "type": "string" },
+          { "id": "f-last", "name": "last_contact", "value": "={{ $now.toISO() }}", "type": "string" }
+        ] },
+        "options": {}
+      },
+      "name": "Clean Lead Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [272, 128]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": { "__rl": true, "mode": "id", "value": "YOUR_DATA_TABLE_ID" },
+        "matchType": "allConditions",
+        "filters": { "conditions": [ { "keyName": "email", "keyValue": "={{ $json.email }}" } ] },
+        "columns": { "mappingMode": "autoMapInputData", "value": null, "matchingColumns": [] },
+        "options": {}
+      },
+      "name": "Save Lead (no duplicates)",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [496, 96]
+    }
+  ],
+  "connections": {
+    "New Lead Form": { "main": [ [ { "node": "Clean Lead Data", "type": "main", "index": 0 } ] ] },
+    "Clean Lead Data": { "main": [ [ { "node": "Save Lead (no duplicates)", "type": "main", "index": 0 } ] ] }
+  },
+  "settings": { "executionOrder": "v1" }
+}
