@@ -5,6 +5,13 @@
 **Solution:** A fully autonomous Make.com pipeline that turns an English news article into a branded, narrated **1080p Bengali news video** and publishes it to Facebook, with no human in the loop.
 
 ## Pipeline (17 modules)
+
+```mermaid
+flowchart LR
+  S["60+ RSS sources<br/>(rotating)"] --> A["OpenAI: Bengali script<br/>+ QC flag"] --> Q{"Quality gates"}
+  Q --> V["ElevenLabs voice"] --> P["OpenAI: plan 6 B-roll scenes"] --> X["Pexels search"]
+  X --> J["JS: B-roll scoring<br/>+ motion graphics"] --> C["Creatomate render"] --> F["📘 Facebook"]
+```
 ```
 Source rotator (60+ RSS sources in Google Sheets)
   ► Read latest article (RSS)

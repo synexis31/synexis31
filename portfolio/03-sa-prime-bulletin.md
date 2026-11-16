@@ -5,6 +5,13 @@
 **Solution:** An orchestrated Make.com system that pulls from **50+ news feeds**, plans a rundown like a TV producer, writes and fact-checks each segment with AI, voices it, picks footage, renders a premium video and publishes it every 8 hours.
 
 ## Architecture
+
+```mermaid
+flowchart LR
+  F["50+ feeds<br/>4 desks"] --> RP["JS rundown producer"] --> WR["AI writer"] --> FC["AI fact-checker"]
+  FC --> VO["Chunked voice + merge"] --> PX["Pexels"] --> D["JS design"] --> R["Async render + polling"]
+  R --> G{"Render guard"} --> FB["📘 Facebook"] --> DS[("Data store:<br/>used stories")]
+```
 ```
 Data store: state + already-used stories
   ► 50+ HTTP feed requests across 4 desks (Local · War · Immigration · Sport)

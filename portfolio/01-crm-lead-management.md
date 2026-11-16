@@ -5,6 +5,15 @@
 **Solution:** An instant, event-driven Make.com scenario that captures, validates, de-duplicates, stores and answers every lead within seconds.
 
 ## Flow
+
+```mermaid
+flowchart LR
+  W["🌐 Website form"] --> H["Make webhook"] --> N["Normalise email"] --> V{"Valid?"}
+  V -- no --> STOP["Stop"]
+  V -- yes --> L["Look up email in CRM"] --> E{"Existing lead?"}
+  E -- new --> A["Add row + log"] --> R["Branded auto-reply (retry ×3)"] --> I1["🔔 New lead alert"]
+  E -- returning --> U["Update row + log"] --> I2["🔁 Returning lead alert"]
+```
 ```
 Website form ──► Webhook
                    │
